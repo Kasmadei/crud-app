@@ -1,7 +1,7 @@
 import React from 'react'
 import { createStackNavigator } from 'react-navigation-stack';
 import About from '../screens/about'
-import { ABOUT } from '../screens/consts';
+import { ABOUT } from '../shared/consts';
 import Header from '../shared/header';
 
 const screens = {

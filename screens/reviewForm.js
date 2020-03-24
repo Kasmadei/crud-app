@@ -13,10 +13,10 @@ const reviewSchema = yup.object({
     })
 })
 
-
 const initValues = { title: '', body: '', rating: '' }
 
 const ReviewForm = ({ addReview }) => {
+
     return (
         <View style={globalStyles.container}>
             <Formik
@@ -54,7 +54,6 @@ const ReviewForm = ({ addReview }) => {
                                 {props.touched.body && props.errors.body}
                             </Text>
                             <TextInput
-                                multiline
                                 style={globalStyles.input}
                                 placeholder='rating (1-5)'
                                 onChangeText={props.handleChange('rating')}

@@ -4,57 +4,49 @@ import { globalStyles } from '../styles/global';
 import { MaterialIcons } from '@expo/vector-icons';
 import Card from '../shared/card';
 import ReviewForm from './reviewForm';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { addReview, deleteReview } from '../services/actions';
+import { REVIEW_DETAILS } from '../shared/consts';
+
 
 const Home = ({ navigation }) => {
+  const dispatch = useDispatch()
+  const reviews = useSelector(state => state);
   const [modalOpen, setModalOpen] = useState(false);
-  const [reviews, setReviews] = useState([
-    { title: 'Zelda, Breath of Fresh Air', rating: 5, body: 'lorem ipsum', key: '1' },
-    { title: 'Gotta Catch Them All (again)', rating: 4, body: 'lorem ipsum', key: '2' },
-    { title: 'Not So "Final" Fantasy', rating: 3, body: 'lorem ipsum', key: '3' },
-  ]);
 
-  const addReview = (review) => {
-      reviews.key = Math.random.toString();
-      setReviews((currentRevs) => {
-          return [review, ...currentRevs]
-      })
-      setModalOpen(false)
+  const onAdd = (review) => {
+    reviews.key = Math.random.toString();
+    dispatch(addReview(review))
+    setModalOpen(false)
+  }
+
+  const onDelete = (key) => {
+    dispatch(deleteReview(key))
   }
 
   return (
     <View style={globalStyles.container}>
-  
       <Modal visible={modalOpen} animationType='slide'>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.modalContent}>
-          <MaterialIcons 
-            name='close'
-            size={24} 
-            style={{...styles.modalToggle, ...styles.modalClose}} 
-            onPress={() => setModalOpen(false)} 
-          />
-          <ReviewForm addReview={addReview} />
-        </View>
+          <View style={styles.modalContent}>
+            <MaterialIcons name='close' size={24} style={{ ...styles.modalToggle, ...styles.modalClose }} onPress={() => setModalOpen(false)} />
+            <ReviewForm addReview={onAdd} />
+          </View>
         </TouchableWithoutFeedback>
       </Modal>
 
-      <MaterialIcons 
-        name='add' 
-        size={24} 
-        style={styles.modalToggle}
-        onPress={() => setModalOpen(true)} 
-      />
+      <MaterialIcons name='add' size={24} style={styles.modalToggle} onPress={() => setModalOpen(true)} />
 
       <FlatList data={reviews} renderItem={({ item }) => (
-        <TouchableOpacity onPress={() => navigation.navigate('ReviewDetails', item)} key={Math.random()}>
+        <TouchableOpacity onPress={() => navigation.navigate(REVIEW_DETAILS, { item, onDelete })} key={Math.random().toString()}>
           <Card>
-            <Text style={globalStyles.titleText}>{ item.title }</Text>
+            <Text style={globalStyles.titleText}>{item.title}</Text>
           </Card>
         </TouchableOpacity>
-      )} 
-      keyExtractor={(item, index) => `${index.toString()}-${item.title}`}
+      )}
+        keyExtractor={(item, index) => `${index.toString()}-${item.title}`}
       />
-
     </View>
   );
 }
