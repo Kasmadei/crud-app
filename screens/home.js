@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, FlatList, Modal, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { globalStyles } from '../styles/global';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -6,24 +6,37 @@ import Card from '../shared/card';
 import ReviewForm from './reviewForm';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { addReview, deleteReview } from '../services/actions';
+import { addReview, deleteReview, setAllReviews } from '../services/actions';
 import { REVIEW_DETAILS } from '../shared/consts';
 import ModalBase from '../shared/modalBase';
 
 
 const Home = ({ navigation }) => {
+
   const dispatch = useDispatch()
-  const reviews = useSelector(state => state);
   const [modalOpen, setModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const reviews = useSelector(state => state);
+
+    useEffect(() => {
+      async function disp () {
+        await dispatch(setAllReviews())
+        setLoading(false)
+      }
+
+      disp();
+    }, [])
 
   const onAdd = (review) => {
-    reviews.key = Math.random.toString();
+    setLoading(true);
+    reviews.key = Math.random().toString();
     dispatch(addReview(review))
     setModalOpen(false)
   }
 
-  const onDelete = (key) => {
-    dispatch(deleteReview(key))
+  const onDelete = async (key) => {
+    setLoading(true);
+    await dispatch(deleteReview(key))
   }
 
   return (
@@ -46,6 +59,7 @@ const Home = ({ navigation }) => {
       )}
         keyExtractor={(item, index) => `${index.toString()}-${item.title}`}
       />
+      {loading === true && ( <Text style={{ position: "absolute", left: '48%', top: '65%', fontSize: 20, fontWeight: 'bold' }}>Lodaing</Text> )}
     </View>
   );
 }

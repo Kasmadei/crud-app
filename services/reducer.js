@@ -1,13 +1,11 @@
-import { ADD_REVIEW, DELETE_REVIEW } from "../shared/consts"
+import { ADD_REVIEW, DELETE_REVIEW, SET_ALL_REVIEWS } from "../shared/consts"
 
-const initState = [
-    { title: 'Zelda, Breath of Fresh Air', rating: 5, body: 'lorem ipsum', key: '1' },
-    { title: 'Gotta Catch Them All (again)', rating: 4, body: 'lorem ipsum', key: '2' },
-    { title: 'Not So "Final" Fantasy', rating: 3, body: 'lorem ipsum', key: '3' },
-]
+const initState = []
 
 export default function reducer(state = initState, action) {
     switch (action.type) {
+        case SET_ALL_REVIEWS: 
+            return action.payload
         case ADD_REVIEW:
             return [action.payload, ...state]
         case DELETE_REVIEW:
