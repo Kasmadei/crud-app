@@ -8,7 +8,6 @@ export const addReview = (review) => {
 }
 
 export const deleteReview = (key) => {
-    console.log(key);
     return {
         type: DELETE_REVIEW,
         payload: key

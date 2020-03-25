@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { addReview, deleteReview } from '../services/actions';
 import { REVIEW_DETAILS } from '../shared/consts';
+import ModalBase from '../shared/modalBase';
 
 
 const Home = ({ navigation }) => {
@@ -27,14 +28,12 @@ const Home = ({ navigation }) => {
 
   return (
     <View style={globalStyles.container}>
-      <Modal visible={modalOpen} animationType='slide'>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.modalContent}>
-            <MaterialIcons name='close' size={24} style={{ ...styles.modalToggle, ...styles.modalClose }} onPress={() => setModalOpen(false)} />
-            <ReviewForm addReview={onAdd} />
-          </View>
-        </TouchableWithoutFeedback>
-      </Modal>
+      <ModalBase visible={modalOpen}>
+        <View style={styles.modalContent}>
+          <MaterialIcons name='close' size={24} style={{ ...styles.modalToggle, ...styles.modalClose }} onPress={() => setModalOpen(false)} />
+          <ReviewForm addReview={onAdd} />
+        </View>
+      </ModalBase>
 
       <MaterialIcons name='add' size={24} style={styles.modalToggle} onPress={() => setModalOpen(true)} />
 

@@ -7,11 +7,10 @@ const initState = [
 ]
 
 export default function reducer(state = initState, action) {
-    console.log(action.type)
     switch (action.type) {
         case ADD_REVIEW:
             return [action.payload, ...state]
-        case DELETE_REVIEW: 
+        case DELETE_REVIEW:
             const copy = [...state]
             const idToDelete = action.payload
             const res = copy.filter(item => item.key !== idToDelete);

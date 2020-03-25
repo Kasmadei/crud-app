@@ -1,8 +1,9 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 import Home from '../screens/home';
+import Edit from '../screens/edit';
 import ReviewDetails from '../screens/reviewDetails';
-import { HOME, REVIEW_DETAILS } from '../shared/consts';
+import { HOME, REVIEW_DETAILS, EDIT } from '../shared/consts';
 import Header from '../shared/header';
 
 const screens = {
@@ -19,6 +20,12 @@ const screens = {
         navigationOptions: {
             title: "Details"
         }
+    },
+    [`${EDIT}`]: {
+        screen: Edit,
+        navigationOptions: {
+            title: "Edit"
+        }
     }
 }
 
@@ -26,7 +33,7 @@ const HomeStack = createStackNavigator(screens, {
     defaultNavigationOptions: {
         headerTintColor: '#444',
         headerStyle: {
-            backgroundColor: "#bebebe"
+            backgroundColor: "#57A0D3"
         }
     }
 });

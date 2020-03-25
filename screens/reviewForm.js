@@ -22,11 +22,7 @@ const ReviewForm = ({ addReview }) => {
             <Formik
                 initialValues={initValues}
                 validationSchema={reviewSchema}
-                onSubmit={(values, actions) => {
-                    actions.resetForm();
-                    addReview(values)
-                }}
-            >
+                onSubmit={(values, actions) => { actions.resetForm(); addReview(values) }}>
                 {(props) => {
                     const { title, body, rating } = props.values
                     const { handleSubmit } = props
