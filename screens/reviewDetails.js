@@ -11,10 +11,16 @@ const ReviewDetails = ({ navigation }) => {
     const [modalOpen, setModalOpen] = useState(false)
     const item = navigation.getParam('item');
     const onDelete = navigation.getParam('onDelete');
-    const { key, title, body, rating } = item;
+    const onEdit = navigation.getParam('onEdit');
+    const { _id, title, body, rating } = item;
 
     const onDeleteAndClose = () => {
-        onDelete(key)
+        onDelete(_id)
+        navigation.navigate(HOME)
+    }
+
+    const onEditAndClose = (newReview) => {
+        onEdit(newReview)
         navigation.navigate(HOME)
     }
 
@@ -45,7 +51,7 @@ const ReviewDetails = ({ navigation }) => {
                 <Card>
                     <Text style={globalStyles.titleText}>{title}</Text>
                     <Text style={styles.body}>{body}</Text>
-                    <TouchableNativeFeedback onPress={() => navigation.navigate(EDIT, { title, body, rating })}>
+                    <TouchableNativeFeedback onPress={() => navigation.navigate(EDIT, { item, onEditAndClose })}>
                         <View style={styles.editIcon}>
                             <MaterialIcons name='edit' size={24} />
                         </View>

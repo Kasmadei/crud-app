@@ -15,3 +15,12 @@ export const deleteReview = (id) => {
     reviews = res
     return res
 }
+
+export const updateReview = (review) => {
+    reviews.map(r => {
+        if (r.key === review.key) {
+            r = review
+        }
+    });
+    return reviews
+}

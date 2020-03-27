@@ -1,4 +1,4 @@
-import { createReview, getAllReviews, deleteReview } from './MockDb';
+import { createReview, getAllReviews, deleteReview, updateReview } from './MockDb';
 import { delay } from './utils';
 
 const MOCK_DELAY = 3000;
@@ -19,5 +19,9 @@ export class Manager {
     async getAllReviewsAsync() {
         await delay(MOCK_DELAY) 
         return getAllReviews()
+    }
+    async updateReviewAsync(review) {
+        await delay(MOCK_DELAY);
+        return updateReview(review)
     }
 }

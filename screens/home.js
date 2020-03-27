@@ -6,7 +6,7 @@ import Card from '../shared/card';
 import ReviewForm from './reviewForm';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { addReview, deleteReview, setAllReviews } from '../services/actions';
+import { addReview, deleteReview, setAllReviews, editReview } from '../services/actions';
 import { REVIEW_DETAILS } from '../shared/consts';
 import ModalBase from '../shared/modalBase';
 
@@ -23,20 +23,27 @@ const Home = ({ navigation }) => {
         await dispatch(setAllReviews())
         setLoading(false)
       }
-
       disp();
     }, [])
 
-  const onAdd = (review) => {
+  const onAdd = async (review) => {
     setLoading(true);
     reviews.key = Math.random().toString();
-    dispatch(addReview(review))
+    await dispatch(addReview(review))
+    setLoading(false);
     setModalOpen(false)
   }
 
   const onDelete = async (key) => {
     setLoading(true);
     await dispatch(deleteReview(key))
+    setLoading(false);
+  }
+
+  const onEdit = async (newReview) => {
+    setLoading(true)
+    await dispatch(editReview(newReview))
+    setLoading(false)
   }
 
   return (
@@ -51,7 +58,7 @@ const Home = ({ navigation }) => {
       <MaterialIcons name='add' size={24} style={styles.modalToggle} onPress={() => setModalOpen(true)} />
 
       <FlatList data={reviews} renderItem={({ item }) => (
-        <TouchableOpacity onPress={() => navigation.navigate(REVIEW_DETAILS, { item, onDelete })} key={Math.random().toString()}>
+        <TouchableOpacity onPress={() => navigation.navigate(REVIEW_DETAILS, { item, onDelete, onEdit })} key={Math.random().toString()}>
           <Card>
             <Text style={globalStyles.titleText}>{item.title}</Text>
           </Card>
